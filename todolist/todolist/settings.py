@@ -16,6 +16,15 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+STATUS_CHOICES = [
+        ('OPEN', 'Open'),
+        ('WORKING', 'Working'),
+        ('DONE', 'Done'),
+        ('OVERDUE', 'Overdue'),
+    ]
+
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -77,8 +86,12 @@ WSGI_APPLICATION = 'todolist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'todolist_db',
+        'USER': 'root',
+        'PASSWORD': 'bhupendra560',
+        'HOST': '127.0.0.1',
+        'PORT': '3306'
     }
 }
 
