@@ -96,7 +96,7 @@ class TASKMODELVIEW(APIView):
         serializer.save()
 
         if tags_data is not None:
-            # Create new tags and add them to the task
+            # Creating new tags and add them to the task
             for tag_id in tags_data:
                 tag, created = Tag.objects.get_or_create(id=tag_id)
                 existing_task.tags.add(tag)
