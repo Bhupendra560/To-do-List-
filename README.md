@@ -17,8 +17,8 @@ Make sure you have the following installed on your system:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Bhupendra560/todolist.git
    
+   git clone https://github.com/Bhupendra560/todolist.git
    Navigate to the project directory : cd todolist
 
 
@@ -30,12 +30,13 @@ Activate the virtual environment:
     On macOS/Linux : source venv/bin/activate
 
 Install dependencies:
-pip install -r requirements.txt
+
+    pip install -r requirements.txt
 
 Apply database migrations:
 
-python manage.py makemigrations
-python manage.py migrate
+    python manage.py makemigrations
+    python manage.py migrate
 
 Run the development server:
 
