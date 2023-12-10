@@ -1,3 +1,111 @@
-from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework import serializers
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Task, Tag
+from django.db import IntegrityError
+from django.shortcuts import get_object_or_404
+from .serializers import InputSerializer, OutputSerializer
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
+class TASKMODELVIEW(APIView):
+
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+    
+    def post(self, request):
+        # creating new task in db with exception handling
+        serializer = InputSerializer(data=request.data)
+        if serializer.is_valid():
+            validated_data = serializer.data
+            try:
+                new_task = Task(
+                    title=validated_data.get('title'),
+                    status=validated_data.get('status'),
+                    description=validated_data.get('description')
+                )
+                if 'due_date' in validated_data:
+                    new_task.due_date=str(validated_data.get('due_date'))
+
+                new_task.save()
+
+                if 'tags' in validated_data:
+                    tags_list = validated_data.get('tags', [])
+                    for tag_id in tags_list:
+                        tag_instance, created = Tag.objects.get_or_create(id=tag_id)
+                        # If the tag was created, set its value or perform additional actions
+                        if created:
+                            tag_instance.value = f'{tag_id}'
+                            tag_instance.save()
+
+                        # Adding tag to the many-to-many relationship
+                        new_task.tags.add(tag_instance)
+                        
+                return Response({'message': 'Task created successfully'}, status=status.HTTP_201_CREATED)
+            except IntegrityError:
+                return Response({'message': 'Duplicate Entry.'}, status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                return Response({'message':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, pk=None):
+        if pk is not None:
+            try:
+                # fetching particular task
+                task = Task.objects.get(id=pk)
+                serializer = OutputSerializer(task).data
+                return Response(serializer)
+
+            except Task.DoesNotExist:
+                return Response({'message': 'Task with id {} not found'.format(pk)}, status=status.HTTP_404_NOT_FOUND)
+            except Exception as e:
+                return Response({'message': str(e)}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            try:
+                # fetching all tasks from db
+                all_tasks = Task.objects.all()
+                if all_tasks:
+                    serializer = OutputSerializer(all_tasks, many=True).data
+                    return Response(serializer)
+                else:
+                    return Response({'message': 'Data not found'}, status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    def put(self, request, pk):
+        try:
+            # checking if task exist, then update it
+            existing_task = Task.objects.get(id=pk)
+        except Task.DoesNotExist:
+            return Response({'message': 'Task with id {} not found'.format(pk)}, status=status.HTTP_404_NOT_FOUND)
+        except IntegrityError:
+            return Response({'message': 'Duplicate Entry.'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        if not request.data:
+            return Response({'message': 'No fields were modified'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = InputSerializer(existing_task, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        existing_task.save()
+        return Response({'message': 'Task updated successfully'}, status=status.HTTP_200_OK)
+
+
+    def delete(self, request, pk):
+        if pk is not None:
+            try:
+                # Deleting a particular Task
+                task = get_object_or_404(Task, id=pk)
+                task.delete()
+                return Response({'message': f'Task with id {pk} deleted successfully'}, status=status.HTTP_200_OK)
+            except Task.DoesNotExist:
+                return Response({'message': 'Task model not found'}, status=status.HTTP_404_NOT_FOUND)
+            except Exception as e:
+                return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    
