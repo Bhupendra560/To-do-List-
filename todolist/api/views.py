@@ -89,10 +89,18 @@ class TASKMODELVIEW(APIView):
         if not request.data:
             return Response({'message': 'No fields were modified'}, status=status.HTTP_400_BAD_REQUEST)
 
+        tags_data = request.data.pop('tags', None)
+        
         serializer = InputSerializer(existing_task, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        existing_task.save()
+
+        if tags_data is not None:
+            # Create new tags and add them to the task
+            for tag_id in tags_data:
+                tag, created = Tag.objects.get_or_create(id=tag_id)
+                existing_task.tags.add(tag)
+
         return Response({'message': 'Task updated successfully'}, status=status.HTTP_200_OK)
 
 
