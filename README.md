@@ -18,7 +18,7 @@ Make sure you have the following installed on your system:
 
    ```bash
    
-   git clone https://github.com/Bhupendra560/todolist.git
+   git clone https://github.com/Bhupendra560/To-do-List-.git
    Navigate to the project directory : cd todolist
 
 
