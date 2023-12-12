@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import status
+from datetime import datetime
 from .models import Task, Tag
 from django.db import IntegrityError
 from django.shortcuts import get_object_or_404
@@ -13,11 +14,19 @@ class TASKMODELVIEW(APIView):
 
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
+
+    def validation_duedate(self, serializer):
+        timestamp_created = datetime.now().date()
+        due_date = serializer.validated_data.get('due_date')
+
+        if due_date and timestamp_created and due_date < timestamp_created:
+            raise serializers.ValidationError('Due Date cannot be before Timestamp created')
     
     def post(self, request):
         # creating new task in db with exception handling
         serializer = InputSerializer(data=request.data)
         if serializer.is_valid():
+            self.validation_duedate(serializer)
             validated_data = serializer.data
             try:
                 new_task = Task(
@@ -93,6 +102,7 @@ class TASKMODELVIEW(APIView):
         
         serializer = InputSerializer(existing_task, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
+        self.validation_duedate(serializer)
         serializer.save()
 
         if tags_data is not None:

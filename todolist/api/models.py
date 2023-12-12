@@ -8,7 +8,7 @@ class Task(models.Model):
     description = models.TextField(max_length=1000)
     due_date = models.DateField(blank=True, null=True)
     tags = models.ManyToManyField('Tag', blank=True) 
-    timestamp = models.DateTimeField(auto_now_add=True, editable=False)
+    timestamp = models.DateTimeField(default=timezone.now, editable=False)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='OPEN')
 
     def __str__(self):
