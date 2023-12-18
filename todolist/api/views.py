@@ -41,16 +41,16 @@ class TASKMODELVIEW(APIView):
 
                 if 'tags' in validated_data:
                     tags_list = validated_data.get('tags', [])
-                    for tag_id in tags_list:
-                        tag_instance, created = Tag.objects.get_or_create(id=tag_id)
-                        # If the tag was created, set its value or perform additional actions
+                    for tag_value in tags_list:
+                        # create the tag based on the value
+                        tag_instance, created = Tag.objects.get_or_create(value=str(tag_value))
                         if created:
-                            tag_instance.value = f'{tag_id}'
+                            tag_instance.value = str(tag_value)
                             tag_instance.save()
 
                         # Adding tag to the many-to-many relationship
                         new_task.tags.add(tag_instance)
-                        
+    
                 return Response({'message': 'Task created successfully'}, status=status.HTTP_201_CREATED)
             except IntegrityError:
                 return Response({'message': 'Duplicate Entry.'}, status=status.HTTP_400_BAD_REQUEST)

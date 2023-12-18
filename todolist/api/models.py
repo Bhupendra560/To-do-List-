@@ -11,15 +11,14 @@ class Task(models.Model):
     timestamp = models.DateTimeField(default=timezone.now, editable=False)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='OPEN')
 
-    def __str__(self):
-        return self.title
     class Meta:
         db_table="tbltask"
 
 class Tag(models.Model):
-    id = models.IntegerField(primary_key=True)
-    value = models.CharField(max_length=50)
+    id = models.AutoField(primary_key=True)
+    value = models.CharField(max_length=255, unique=True)
 
-    def __str__(self):
-        return self.value
+    class Meta:
+        db_table="tbltag"
+
 

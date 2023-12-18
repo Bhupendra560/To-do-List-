@@ -7,7 +7,7 @@ class InputSerializer(serializers.ModelSerializer):
         status = serializers.ChoiceField(required=True, choices=STATUS_CHOICES)
         description = serializers.CharField(required=True)
         # optional fields
-        tags = serializers.ListField(child=serializers.CharField(), required=False)
+        tags = serializers.ListField(child=serializers.CharField(max_length=255), required=False)
         due_date = serializers.DateField(required=False)
         class Meta:
             model = Task
