@@ -25,8 +25,9 @@ jobs:
         cd todolist/todolist
         pip install -r requirements.txt
 
-    - name: Start MySQL
-      run: sudo service mysql start
+    - name: Set up environment variables
+      run: |
+        echo "DATABASE_URL=mysql://@Bhupendra560.mysql.pythonanywhere-services.com/Bhupendra560$todolist_db" > .env
 
     - name: Run tests
       run: |
