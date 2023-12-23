@@ -27,6 +27,7 @@ jobs:
 
     - name: Run tests
       run: |
+        cd todolist/todolist
         python manage.py test api
 
     - name: Run Super Linter
