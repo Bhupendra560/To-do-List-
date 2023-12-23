@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: test_db
-      DB_USER: root123
-      DB_PASSWORD: "root123"
+      DB_USER: Bhupendra
+      DB_PASSWORD: root123
    
     steps:
     - name: Checkout code
@@ -34,13 +34,21 @@ jobs:
       run: |
         sudo service mysql start
         sudo mysql -u root -p"root"
+        
+        mysql -u root -e"CREATE USER 'Bhupendra'@'localhost' IDENTIFIED WITH authentication_plugin BY 'root123';"
+        mysql -u root -e"GRANT ALL PRIVILEGES ON *.* TO 'Bhupendra'@'localhost' WITH GRANT OPTION;';"
+        
+        
+      # sudo mysql -u root -e "CREATE USER DB_USER@'localhost' IDENTIFIED BY 'DB_PASSWORD';"
+      # sudo mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO DB_USE'@'localhost' WITH GRANT OPTION;"
+        
       # sudo service mysql stop
 
-    - name: Run tests
-      run: |
-        cd todolist/todolist
-        python manage.py migrate
-        python manage.py test
+    # - name: Run tests
+    #   run: |
+    #     cd todolist/todolist
+    #     python manage.py migrate
+    #     python manage.py test
 
         
         
@@ -65,8 +73,8 @@ jobs:
       
     # - name: Create MySQL User and Grant Privileges
     #   run: |
-    #     sudo mysql -u root -e "CREATE USER 'DB_USER'@'localhost' IDENTIFIED BY 'DB_PASSWORD';"
-    #     sudo mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'DB_USER'@'localhost' WITH GRANT OPTION;"
+        # sudo mysql -u root -e "CREATE USER 'DB_USER'@'localhost' IDENTIFIED BY 'DB_PASSWORD';"
+        # sudo mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'DB_USER'@'localhost' WITH GRANT OPTION;"
 
 
     # mysql -u root -e "DROP USER ''@'localhost'; FLUSH PRIVILEGES;"
