@@ -8,16 +8,11 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_ROOT_PASSWORD: bhupendra560
-          MYSQL_DATABASE: todolist_db
-          MYSQL_USER: root
-        ports:
-          - 3306:3306
-
+    env:
+      DB_DATABASE: test_db
+      DB_USER: root
+      DB_PASSWORD: root
+   
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -33,6 +28,11 @@ jobs:
       run: |
         cd todolist/todolist
         pip install -r requirements.txt
+
+    - name: Start MySQL
+      run: |
+        sudo /etc/init.d/mysql start
+        mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;" -u$DB_USER -p$DB_PASSWORD
 
     - name: Run tests
       run: |
