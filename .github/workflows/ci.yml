@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run tests
+      run: |
+        python manage.py test
+
+    - name: Run Super Linter
+      uses: github/super-linter@v4
+      env:
+        RUN_LOCAL: true
+        DEFAULT_BRANCH: master
+        VALIDATE_ALL_CODEBASE: false  # Optional: Set to true if you want to validate all files
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
