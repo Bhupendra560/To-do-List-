@@ -32,8 +32,8 @@ jobs:
     - name: Start MySQL
       run: |
         sudo /etc/init.d/mysql start
-        DROP USER ''@'localhost';
-        FLUSH PRIVILEGES;
+        mysql -u root -e "DROP USER ''@'localhost';"
+        mysql -u root -e "FLUSH PRIVILEGES;"
         
         
       # GRANT ALL ON sonar.* TO 'sonar'@'localhost' IDENTIFIED BY 'sonar';
