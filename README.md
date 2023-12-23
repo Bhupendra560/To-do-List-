@@ -43,6 +43,15 @@ Run the development server:
     python manage.py runserver
     The application should now be running at http://127.0.0.1:8000/.
 
+To run the tests, use the following command:
+
+      python manage.py test api
+
+The test coverage report can be checked in: coverage_report.txt 
+
+      ## For terminal use below command
+      cat coverage_report.txt
+
 Usage:
 
     Access the Django Admin interface at http://127.0.0.1:8000/admin/ to manage tasks and tags.
