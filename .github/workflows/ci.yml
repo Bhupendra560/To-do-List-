@@ -33,7 +33,7 @@ jobs:
       run: |
         sudo /etc/init.d/mysql start
         mysql -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;" 
-        mysql -u $DB_USER -p $DB_PASSWORD
+        
 
     # - name: Create MySQL User and Grant Privileges
      # sudo mysql --user=DB_USER --password=DB_PASSWORD
@@ -44,6 +44,7 @@ jobs:
     - name: Run CI Tasks with MySQL User
       run: |
         cd todolist/todolist
+        sudo mysql_secure_installation -u $DB_USER -p $DB_PASSWORD
         python manage.py migrate
 
     - name: Run tests
