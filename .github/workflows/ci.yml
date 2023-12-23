@@ -25,6 +25,9 @@ jobs:
         cd todolist/todolist
         pip install -r requirements.txt
 
+    - name: Start MySQL
+      run: sudo service mysql start
+
     - name: Run tests
       run: |
         cd todolist/todolist
