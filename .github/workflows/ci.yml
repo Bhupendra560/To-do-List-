@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: test_db
-      DB_USER: root
+      DB_USER: root123
       DB_PASSWORD: "root123"
    
     steps:
@@ -28,13 +28,15 @@ jobs:
       run: |
         cd todolist/todolist
         pip install -r requirements.txt
-        sudo apt-get install mysql-server
+      # sudo apt-get install mysql-server
 
     - name: Start MySQL
       run: |
         sudo service mysql start
-        sudo service mysql stop
-        sudo service mysql restart
+        sudo mysql -u root -p"root"
+      # sudo service mysql stop
+
+        
         
       # sudo mysqld_safe --skip-grant-tables &
       # mysql -u root <<EOF
