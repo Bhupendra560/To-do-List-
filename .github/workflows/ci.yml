@@ -33,9 +33,6 @@ jobs:
         cd todolist/todolist
         pip install -r requirements.txt
 
-    - name: Start MySQL Server
-      run: docker-compose up -d mysql
-
     - name: Run tests
       run: |
         cd todolist/todolist
