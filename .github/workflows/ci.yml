@@ -36,6 +36,12 @@ jobs:
         sudo mysql -u root -p"root"
       # sudo service mysql stop
 
+    - name: Run tests
+      run: |
+        cd todolist/todolist
+        python manage.py migrate
+        python manage.py test
+
         
         
       # sudo mysqld_safe --skip-grant-tables &
@@ -76,11 +82,7 @@ jobs:
 
 
 
-    # - name: Run tests
-    #   run: |
-    #     cd todolist/todolist
-    # python manage.py migrate
-    #     python manage.py test
+   
 
 
 
