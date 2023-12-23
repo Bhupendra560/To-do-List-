@@ -8,14 +8,14 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
-    # services:
-    #   mysql:
-    #     image: mysql:latest
-    #     env:
-    #       MYSQL_ROOT_PASSWORD: root_password
-    #       MYSQL_DATABASE: test_database
-    #     ports:
-    #       - 3306:3306
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_DATABASE: test_database
+        ports:
+          - 3306:3306
 
     steps:
     - name: Checkout code
@@ -32,6 +32,9 @@ jobs:
       run: |
         cd todolist/todolist
         pip install -r requirements.txt
+
+    - name: Start MySQL Server
+      run: docker-compose up -d mysql
 
     - name: Run tests
       run: |
