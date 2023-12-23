@@ -12,8 +12,9 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: root_password
-          MYSQL_DATABASE: test_database
+          MYSQL_ROOT_PASSWORD: bhupendra560
+          MYSQL_DATABASE: todolist_db
+          MYSQL_USER: root
         ports:
           - 3306:3306
 
