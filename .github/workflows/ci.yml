@@ -34,15 +34,17 @@ jobs:
       run: |
         sudo service mysql start
         sudo service mysql stop
-        sudo mysqld_safe --skip-grant-tables &
-        mysql -u root <<EOF
-        USE mysql;
-        Update user set authentication_string=password('root560406') where user='root';
-        flush privileges;
-        quit
-        EOF
-        sudo pkill mysqld_safe
-        sudo service mysql start
+        sudo service mysql restart
+        
+      # sudo mysqld_safe --skip-grant-tables &
+      # mysql -u root <<EOF
+      # USE mysql;
+      # Update user set authentication_string=password('root560406') where user='root';
+      # flush privileges;
+      # quit
+      # EOF
+      # sudo mysqld_safe
+      # sudo service mysql start
 
 
         
