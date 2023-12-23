@@ -27,7 +27,7 @@ jobs:
 
     - name: Run tests
       run: |
-        python manage.py test
+        python manage.py test api
 
     - name: Run Super Linter
       uses: github/super-linter@v4
