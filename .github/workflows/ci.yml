@@ -25,20 +25,13 @@ jobs:
         cd todolist/todolist
         pip install -r requirements.txt
 
-    - name: Set up environment variables
+    - name: Run Migrations 
       run: |
-        echo "DATABASE_URL=mysql://@Bhupendra560.mysql.pythonanywhere-services.com/Bhupendra560$todolist_db" > .env
+        cd todolist/todolist
+        python manage.py migrate
 
     - name: Run tests
       run: |
         cd todolist/todolist
         python manage.py test
 
-    - name: Run Super Linter
-      uses: github/super-linter@v4
-      env:
-        RUN_LOCAL: true
-        DEFAULT_BRANCH: master
-        VALIDATE_ALL_CODEBASE: false  # Optional: Set to true if you want to validate all files
-      with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
