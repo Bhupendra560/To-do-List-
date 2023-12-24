@@ -42,6 +42,11 @@ jobs:
         mysql -u newuser -p'password' -e "SHOW GRANTS FOR 'newuser'@'localhost';"
         mysql -u newuser -p'password' -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
         mysql -u newuser -p'password' -e "show databases;"
+
+    - name: Run tests
+      run: |
+        python manage.py migrate
+        
                
         
         
@@ -50,10 +55,7 @@ jobs:
       # mysql -u root -p'root' -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
        
         
-    # - name: Run tests
-    #   run: |
-    #     cd todolist/todolist
-    #     python manage.py migrate
+    
         
 
 
