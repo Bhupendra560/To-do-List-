@@ -2,6 +2,7 @@ from rest_framework import serializers
 from todolist.settings import STATUS_CHOICES
 from .models import Task, Tag
 
+
 class InputSerializer(serializers.ModelSerializer):
     title = serializers.CharField(required=True)
     status = serializers.ChoiceField(required=True, choices=STATUS_CHOICES)
@@ -9,7 +10,7 @@ class InputSerializer(serializers.ModelSerializer):
     # optional fields
     tags = serializers.ListField(child=serializers.CharField(max_length=100), required=False)
     due_date = serializers.DateField(required=False)
-    
+
     class Meta:
         model = Task
         exclude = ["timestamp"]

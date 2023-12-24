@@ -26,7 +26,7 @@ class TaskAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     list_display = ['value']
     search_fields = ['value']
- 
+
 
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Tag, TagAdmin)

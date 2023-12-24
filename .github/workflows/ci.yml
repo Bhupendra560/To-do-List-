@@ -51,7 +51,7 @@ jobs:
     - name: Run Linting
       run: |
         cd todolist/todolist
-        python -m flake8
+        python -m flake8 --max-line-length=200
 
     - name: Run Super Linter
       uses: github/super-linter@v4

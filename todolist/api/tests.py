@@ -1,4 +1,3 @@
-from rest_framework.test import APIClient
 from rest_framework import status
 from .models import Task
 from .models import Tag
@@ -97,7 +96,7 @@ class PostCreateTest(APITestCase):
         tag1 = Tag.objects.create(value="tag1")
         task.tags.set([tag1])
 
-        assert task.title == "mytask1"      
+        assert task.title == "mytask1"
         assert task.status == "OPEN"
         assert task.description == "This is a test task"
         assert task.due_date == "2023-12-28"
