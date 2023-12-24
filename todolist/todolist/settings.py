@@ -83,32 +83,27 @@ WSGI_APPLICATION = 'todolist.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'todolist_db',
+#         'USER': 'root',
+#         'PASSWORD': 'bhupendra560',
+#         'HOST': 'localhost',
+#         'PORT': '3306'
+#     }
+# }
 
-ENVIRONMENT = os.environ.get('ENVIRONMENT', 'local')
-
-# Default database configuration for local development
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'todolist_db',
-        'USER': 'root',
-        'PASSWORD': 'bhupendra560',
+        'NAME': 'mytest_db',
+        'USER': 'newuser',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '3306'
     }
 }
-
-# Override database configuration for CI environment
-if ENVIRONMENT == 'CI':
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
