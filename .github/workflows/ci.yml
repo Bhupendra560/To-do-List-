@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENVIRONMENT: 'CI'
-      DB_DATABASE: mytest_db
-      DB_USER: newuser
-      DB_PASSWORD: password
+      export DB_DATABASE: mytest_db
+      export DB_USER: newuser
+      export DB_PASSWORD: password
    
     steps:
     - name: Checkout code
