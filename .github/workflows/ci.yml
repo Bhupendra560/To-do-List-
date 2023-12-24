@@ -9,6 +9,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     env:
+      ENVIRONMENT: 'CI'
       export DB_DATABASE: mytest_db
       export DB_USER: newuser
       export DB_PASSWORD: password
@@ -45,7 +46,6 @@ jobs:
     - name: Run tests
       run: |
         cd todolist/todolist
-        export DJANGO_ENV=ci
         python manage.py migrate
         python manage.py test
 
