@@ -48,6 +48,7 @@ jobs:
         cd todolist/todolist
         python manage.py migrate
         
+        
                
         
         
