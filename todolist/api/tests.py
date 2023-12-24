@@ -6,7 +6,7 @@ from .models import Task
 from .models import Tag
 import json
 import base64
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase, APIRequestFactory
 from .serializers import InputSerializer, OutputSerializer
@@ -51,7 +51,7 @@ class PostCreateTest(APITestCase):
         }
 
         
-    def test_add_new_task(self):
+    def test_views(self):
         
         # created task1
         post_url = reverse('add new task')
@@ -95,3 +95,29 @@ class PostCreateTest(APITestCase):
         response = self.client.delete(delete_url, **self.headers)
         print(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+    def test_models(self):    
+        task = Task.objects.create(
+            title="mytask1",
+            status="OPEN",
+            description="This is a test task",
+            due_date="2023-12-28",
+        )
+
+        tag1 = Tag.objects.create(value="tag1")
+        task.tags.set([tag1])
+
+        assert task.title == "mytask1"      
+        assert task.status == "OPEN"
+        assert task.description == "This is a test task"    
+        assert task.due_date == "2023-12-28"
+
+        assert tag1 in task.tags.all()
+
+
+    def test_url(self):
+
+        path = reverse('add new task')
+        print(path)     
+        assert resolve(path).view_name == "add new task"
