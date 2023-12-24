@@ -48,17 +48,17 @@ jobs:
         python manage.py migrate
         python manage.py test
 
-    # - name: Run Linting
-    #   run: |
-    #     cd todolist/todolist
-    #     python -m flake8 --max-line-length=200
+    - name: Run Linting
+      run: |
+        cd todolist/todolist
+        python -m flake8 --max-line-length=200
 
-    # - name: Run Super Linter
-    #   uses: github/super-linter@v4
-    #   env:
-    #     RUN_LOCAL: true
-    #     DEFAULT_BRANCH: master
-    #     VALIDATE_ALL_CODEBASE: false  
-    #   with:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Run Super Linter
+      uses: github/super-linter@v4
+      env:
+        RUN_LOCAL: true
+        DEFAULT_BRANCH: master
+        VALIDATE_ALL_CODEBASE: false  
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
