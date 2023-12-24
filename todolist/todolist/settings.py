@@ -84,17 +84,7 @@ WSGI_APPLICATION = 'todolist.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-ENVIRONMENT = os.environ.get('ENVIRONMENT', local)
-
-if ENVIRONMENT == 'CI':
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
+ENVIRONMENT = os.environ.get('ENVIRONMENT')
 
 # Default database configuration for local development
 DATABASES = {
@@ -108,11 +98,18 @@ DATABASES = {
     }
 }
 
+if ENVIRONMENT == 'CI':
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+
+
 # Override database configuration for CI environment
-
-
-
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
