@@ -47,6 +47,12 @@ jobs:
       run: |
         cd todolist/todolist
         python manage.py migrate
+        python manage.py test
+
+    - name: Run Linting
+      run: |
+        cd todolist/todolist
+        python -m flake8
         
         
                
