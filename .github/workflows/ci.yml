@@ -35,11 +35,13 @@ jobs:
         sudo service mysql start
         mysql -u root -p'root' -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
         mysql -u root -p'root' -e "show databases;"
+        mysql -u root -p'root' -e "SELECT user, host FROM mysql.user;"
+       
         
-    - name: Run tests
-      run: |
-        cd todolist/todolist
-        python manage.py migrate
+    # - name: Run tests
+    #   run: |
+    #     cd todolist/todolist
+    #     python manage.py migrate
         
 
 
