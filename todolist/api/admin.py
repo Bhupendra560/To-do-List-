@@ -2,11 +2,12 @@ from django.contrib import admin
 from .models import Task, Tag
 from django.utils import timezone
 
+
 class TaskAdmin(admin.ModelAdmin):
     list_display = ['title', 'timestamp', 'due_date', 'status']
     list_filter = ['status', 'due_date']
     search_fields = ['title', 'description']
-    
+
     fieldsets = (
         ('Basic Information', {
             'fields': ('title', 'description', 'due_date', 'status')
@@ -21,9 +22,11 @@ class TaskAdmin(admin.ModelAdmin):
             obj.timestamp = timezone.now()
         obj.save()
 
+
 class TagAdmin(admin.ModelAdmin):
     list_display = ['value']
     search_fields = ['value']
+ 
 
 admin.site.register(Task, TaskAdmin)
 admin.site.register(Tag, TagAdmin)

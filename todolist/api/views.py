@@ -10,6 +10,7 @@ from .serializers import InputSerializer, OutputSerializer
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+
 class TASKMODELVIEW(APIView):
 
     authentication_classes = [BasicAuthentication]
@@ -21,7 +22,7 @@ class TASKMODELVIEW(APIView):
 
         if due_date and timestamp_created and due_date < timestamp_created:
             raise serializers.ValidationError('Due Date cannot be before Timestamp created')
-    
+
     def post(self, request):
         # creating new task in db with exception handling
         serializer = InputSerializer(data=request.data)
@@ -35,7 +36,7 @@ class TASKMODELVIEW(APIView):
                     description=validated_data.get('description')
                 )
                 if 'due_date' in validated_data:
-                    new_task.due_date=str(validated_data.get('due_date'))
+                    new_task.due_date = str(validated_data.get('due_date'))
 
                 new_task.save()
 
@@ -50,12 +51,12 @@ class TASKMODELVIEW(APIView):
 
                         # Adding tag to the many-to-many relationship
                         new_task.tags.add(tag_instance)
-    
+
                 return Response({'message': 'Task created successfully'}, status=status.HTTP_201_CREATED)
             except IntegrityError:
                 return Response({'message': 'Duplicate Entry.'}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
-                return Response({'message':str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -83,7 +84,6 @@ class TASKMODELVIEW(APIView):
             except Exception as e:
                 return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-
     def put(self, request, pk):
         try:
             # checking if task exist, then update it
@@ -99,7 +99,7 @@ class TASKMODELVIEW(APIView):
             return Response({'message': 'No fields were modified'}, status=status.HTTP_400_BAD_REQUEST)
 
         tags_data = request.data.pop('tags', None)
-        
+
         serializer = InputSerializer(existing_task, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.validation_duedate(serializer)
@@ -113,7 +113,6 @@ class TASKMODELVIEW(APIView):
 
         return Response({'message': 'Task updated successfully'}, status=status.HTTP_200_OK)
 
-
     def delete(self, request, pk):
         if pk is not None:
             try:
@@ -125,5 +124,3 @@ class TASKMODELVIEW(APIView):
                 return Response({'message': 'Task model not found'}, status=status.HTTP_404_NOT_FOUND)
             except Exception as e:
                 return Response({'message': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    
