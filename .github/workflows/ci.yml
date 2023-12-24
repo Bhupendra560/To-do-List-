@@ -34,9 +34,11 @@ jobs:
       run: |
         sudo service mysql start
         sudo mysql -u root -p"root"
+
+        sudo update user set authentication_string=password('1111') where user='root';
         
-        sudo mysql -u root -e"CREATE USER 'Bhupendra'@'localhost' IDENTIFIED BY 'bhupendra560';"
-        sudo mysql -u root -e"GRANT ALL PRIVILEGES ON *.* TO 'Bhupendra'@'localhost' WITH GRANT OPTION;"
+      # sudo mysql -u root -e"CREATE USER 'Bhupendra'@'localhost' IDENTIFIED BY 'bhupendra560';"
+      # sudo mysql -u root -e"GRANT ALL PRIVILEGES ON *.* TO 'Bhupendra'@'localhost' WITH GRANT OPTION;"
         
         
       # sudo mysql -u root -e "CREATE USER DB_USER@'localhost' IDENTIFIED BY 'DB_PASSWORD';"
