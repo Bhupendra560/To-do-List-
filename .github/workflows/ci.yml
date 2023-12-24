@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: mytest_db
-      DB_USER: Bhupendra
-      DB_PASSWORD: Bhupendra560
+      DB_USER: root
+      DB_PASSWORD: root
    
     steps:
     - name: Checkout code
@@ -36,11 +36,11 @@ jobs:
         mysql -u root -p'root' -e "CREATE DATABASE IF NOT EXISTS $DB_DATABASE;"
         mysql -u root -p'root' -e "show databases;"
         
-    # - name: Run tests
-    #   run: |
-    #     cd todolist/todolist
-    #     python manage.py migrate
-    #     python manage.py test
+    - name: Run tests
+      run: |
+        cd todolist/todolist
+        python manage.py migrate
+        
 
 
 
