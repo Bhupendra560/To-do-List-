@@ -12,7 +12,6 @@ jobs:
       export DB_DATABASE: mytest_db
       export DB_USER: newuser
       export DB_PASSWORD: password
-      DJANGO_ENV: 'ci'
    
     steps:
     - name: Checkout code
@@ -46,7 +45,7 @@ jobs:
     - name: Run tests
       run: |
         cd todolist/todolist
-        set DJANGO_ENV=ci
+        export DJANGO_ENV=ci
         python manage.py migrate
         python manage.py test
 
