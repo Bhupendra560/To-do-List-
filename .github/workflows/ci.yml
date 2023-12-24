@@ -32,6 +32,7 @@ jobs:
 
     - name: Start MySQL
       run: |
+        sudo service mysql start
         echo "Database: $DB_DATABASE"
         echo "User: $DB_USER"
         echo "Password: $DB_PASSWORD"
