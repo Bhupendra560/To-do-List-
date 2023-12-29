@@ -27,21 +27,21 @@ class PostCreateTest(APITestCase):
             'title': 'Test Task',
             'status': 'OPEN',
             'description': 'This is a test task.',
-            'due_date': '2023-12-28',
+            'due_date': '2024-01-30',
             'tags': ['name1', 'name2']
         }
         self.task_data2 = {
             'title': 'Test Task2',
             'status': 'OPEN',
             'description': 'This is a test task2.',
-            'due_date': '2023-12-28',
+            'due_date': '2024-01-30',
             'tags': ['name1', 'name2']
         }
         self.updatetask_data = {
             'title': 'Task20',
             'status': 'DONE',
             'description': 'This is updated task.',
-            'due_date': '2023-12-29'
+            'due_date': '2024-01-30'
         }
 
     def test_views(self):
